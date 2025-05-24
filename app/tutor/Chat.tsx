@@ -1,7 +1,6 @@
 'use client'
-import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
-import { createEventMessage} from './functions';
+import { createEventMessage, gpt_script, welcomeMessage} from './functions';
 import MessageBubble from './components/MessageBubble';
 import SessionControls from './components/SessionControls';
 import MicButton from './components/MicButton';
@@ -20,7 +19,7 @@ function Chat() {
   const mediaStream = useRef<MediaStream | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState<Message[]>([{ text: "welcomeMessage", isUser: false, timestamp: new Date() }]);
+  const [messages, setMessages] = useState<Message[]>([{ text: welcomeMessage, isUser: false, timestamp: new Date() }]);
   // Audio recording state
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const audioChunks = useRef<Blob[]>([]);
@@ -62,24 +61,25 @@ function Chat() {
           console.error('No audio data recorded');
           return;
         }
-        const audioFile = new File([audioBlob], 'audio.webm', { type: 'audio/webm' });
-        try {
-          const formData = new FormData();
-          formData.append('file', audioFile);
-          formData.append('model', 'whisper-1');
-          const response = await fetch("api/session",{
-            method:"POST",
-            body:formData
-          })
-          const data = await response.json()
-          console.log("Transcription Data",data)
-          const transcribedText = data.text;
-          if (transcribedText) {
-            sendTextMessage(transcribedText);
-          }
-        } catch (error) {
-          console.error('Error getting transcription', error);
-        }
+        // sendTextMessage("🎤 Audio message sent")
+        // const audioFile = new File([audioBlob], 'audio.webm', { type: 'audio/webm' });
+        // try {
+        //   const formData = new FormData();
+        //   formData.append('file', audioFile);
+        //   formData.append('model', 'whisper-1');
+        //   const response = await fetch("api/session",{
+        //     method:"POST",
+        //     body:formData
+        //   })
+        //   const data = await response.json()
+        //   console.log("Transcription Data",data)
+        //   const transcribedText = data.text;
+        //   if (transcribedText) {
+        //     sendTextMessage(transcribedText);
+        //   }
+        // } catch (error) {
+        //   console.error('Error getting transcription', error);
+        // }
       };
     } catch (error) {
       console.error('Error stopping recording:', error);
@@ -192,6 +192,7 @@ function Chat() {
     }
     if(eventData.type === "response.audio_transcript.delta") {
       const deltaText = eventData.delta;
+      console.log("Delta Text", deltaText);
       if (typeof deltaText === "string") {
         setMessages(prev => {
           // Check if we have a previous message from assistant
@@ -230,13 +231,9 @@ function Chat() {
         setIsSessionActive(true);
         setEvents([]);
         // Send the sales script once the channel is open
-        // const systemEvent = createEventMessage("message","system","input_text",systemPrompt)
-        // sendClientEvent(systemEvent);
-        // // Send a message to the user to indicate the assessment has started
-        // const assistantMessageEvent = createEventMessage("message","assistant",'text',sales_script)
-        // setTimeout(() => {
-        //   sendClientEvent(assistantMessageEvent);
-        // }, 300);
+        const systemEvent = createEventMessage("message","system","input_text",gpt_script)
+        sendClientEvent(systemEvent);
+
         setMessages([...messages, { isUser: true, text: "Starting assessment", timestamp: new Date() }]);
         sendClientEvent({ type: "response.create" });
       });
@@ -253,8 +250,8 @@ function Chat() {
   
   return (
     <>
-      <div className="flex w-1/2 justify-center items-start min-h-screen bg-gray-50 p-4">
-        <div className="w-full  relative h-[95vh] bg-white rounded-2xl shadow-lg">
+      <div className="flex w-1/2 justify-center items-start min-h-screen bg-gray-800 p-4">
+        <div className="w-full  relative h-[95vh] bg-gray-900 rounded-2xl shadow-lg">
         <div ref={chatContainerRef} className="h-full overflow-y-auto pb-40 px-6 pt-6">
           {messages.map((message, index) => (
             <MessageBubble  key={message.id || index} index={index}  message={message}
@@ -262,7 +259,7 @@ function Chat() {
           ))}
           <div ref={messagesEndRef} />
         </div>
-        <div className="absolute bottom-0.5 w-full left-0  rounded-2xl right-0 px-6 bg-white mr-5">
+        <div className="absolute bottom-0.5 w-full left-0  rounded-2xl right-0 px-6 bg-gray-900 mr-5">
             <SessionControls   startSession={startSession} stopSession={stopSession}
               sendClientEvent={sendClientEvent} sendTextMessage={sendTextMessage}
               serverEvents={events} isSessionActive={isSessionActive} />
