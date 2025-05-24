@@ -28,6 +28,7 @@ export async function GET(request:Request){
 export async function POST(request:Request){
    try{
       const formData = await request.formData()
+      formData.append("language","en")
    const response = await fetch("https://api.openai.com/v1/audio/transcriptions",{
       method:"POST",
       headers:{
