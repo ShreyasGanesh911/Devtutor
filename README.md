@@ -2,6 +2,8 @@
 
 DevTutor is an intelligent coding education platform that combines real-time AI chat with an integrated code editor to provide an immersive learning experience.
 
+Built using Next, Tailwind CSS and GPT's Realtime API 
+
 ## Features
 
 ### 1. About Page
