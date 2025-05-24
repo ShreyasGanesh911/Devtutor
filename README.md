@@ -1,40 +1,52 @@
-# DevTutor - Interactive Programming Learning Platform
+# DevTutor - Your AI-Powered Coding Companion
 
-## Overview
-DevTutor is an interactive platform that helps users learn programming through real-time conversations and hands-on coding practice. The platform supports multiple programming languages and provides both voice and text-based interactions.
+DevTutor is an intelligent coding education platform that combines real-time AI chat with an integrated code editor to provide an immersive learning experience.
 
 ## Features
-- 🔐 User Authentication
-- 🌐 Multi-language Support
-- 💬 Real-time Chat Interface
-- 🎤 Voice Input Support
-- 📝 Text Input Support
-- 🔊 Voice Output
-- 📄 Text Output
-- 🚧 Coming Soon: Online Code Editor with Live Output
 
-## Workflow
-1. User logs in to their account
-2. Selects a programming language to learn
-3. Opens the chat interface which connects to the real-time API
-4. Interacts with the tutor using:
-   - Voice input
-   - Text input
-5. Receives responses in both:
-   - Voice format
-   - Text format
+### 1. About Page
+![About Page](public/about.png)
+The landing page introduces DevTutor's core features and capabilities. It showcases:
+- Real-time AI Chat functionality
+- Integrated Code Editor
+- GPT-powered assistance
+- Modern, dark-themed UI for comfortable coding sessions
 
-## Tech Stack
-- Frontend: [To be added]
-- Backend: [To be added]
-- Real-time Communication: [To be added]
-- Voice Processing: [To be added]
+### 2. Introduction
+![Introduction](public/intro.png)
+The introduction section provides users with:
+- Seamless onboarding experience
+- Clear explanation of DevTutor's capabilities
+- Quick access to start learning
+- Overview of the platform's features
+
+### 3. Working Demo
+![Working Demo](public/working.png)
+The working interface demonstrates:
+- Real-time AI chat interaction
+- Code editor with syntax highlighting
+- Multiple programming language support
+- Instant code execution capabilities
+- Live AI responses and code suggestions
+
+## Key Features
+
+- **Real-time AI Chat**: Get instant responses and explanations from our AI tutor
+- **Integrated Code Editor**: Write and run code directly in the browser
+- **Multi-language Support**: Supports JavaScript, Python, C++, and Java
+- **GPT Integration**: Powered by the latest GPT technology for intelligent assistance
+- **Dark Theme**: Easy on the eyes for long coding sessions
+- **Instant Execution**: Run code and see results immediately
+
+## Technical Stack
+
+- Next.js for the frontend framework
+- Tailwind CSS for styling
+- CodeMirror for the code editor
+- GPT API for AI interactions
+- Real-time WebSocket communication
 
 ## Getting Started
-[Setup instructions to be added]
 
-## Contributing
-[Contribution guidelines to be added]
 
-## License
-[License information to be added]
+
