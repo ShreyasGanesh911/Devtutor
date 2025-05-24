@@ -10,7 +10,18 @@ type ButtonProps = {
 export default function Button({ icon, children, onClick, className = "" }: ButtonProps) {
   return (
     <button
-      className={`rounded-full xl:p-4 p-2 flex border border-blue-200 items-center gap-1 hover:opacity-90 hover:cursor-pointer ${className} font-semibold`}
+      className={`
+        rounded-full xl:p-4 p-2 
+        flex items-center gap-1 
+        border border-gray-600
+        bg-gray-700 text-gray-200
+        hover:bg-gray-600 
+        hover:border-gray-500
+        transition-colors duration-200
+        hover:cursor-pointer 
+        font-semibold
+        ${className}
+      `}
       onClick={onClick}
     >
       {icon}

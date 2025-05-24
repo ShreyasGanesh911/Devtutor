@@ -1,3 +1,4 @@
+"use client"
 interface Message {
     text: string;
     isUser: boolean;
@@ -19,8 +20,8 @@ function MessageBubble({index,message,currentText}:Props) {
               <div
                 className={`sm:max-w-[70%] max-w-[90%] p-3 xl:p-4 rounded-2xl shadow-sm
                   ${message.isUser 
-                    ? 'bg-blue-600 text-white rounded-br-none ' 
-                    : 'bg-gray-100 text-gray-800 rounded-bl-none text-sm '
+                    ? 'bg-blue-600 text-white rounded-br-none' 
+                    : 'bg-gray-700 text-gray-200 rounded-bl-none text-sm'
                   }`}
               >
                 {message.isUser ? (
