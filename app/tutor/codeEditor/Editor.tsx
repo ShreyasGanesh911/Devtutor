@@ -6,23 +6,34 @@ import { javascript } from '@codemirror/lang-javascript'
 import { python } from '@codemirror/lang-python'
 import { cpp } from '@codemirror/lang-cpp'
 import { java } from '@codemirror/lang-java'
+import { languages } from './Language'
+
+const languageExtensions = {
+    'javascript': javascript,
+    'python': python,
+    'cpp': cpp,
+    'java': java
+}
 
 const Editor: React.FC = () => {
-    const [code, setCode] = useState<string>("console.log('Hello World')")
-    const [language, setLanguage] = useState<string>("javascript")
+    const [code, setCode] = useState<string>(languages[0].snippet)
+    const [language, setLanguage] = useState<string>(languages[0].lang)
+    const [version, setVersion] = useState<string>(languages[0].version)
     const [output, setOutput] = useState<string>("")
     const [copied, setCopied] = useState(false)
 
-    const languageOptions = [
-        { value: 'javascript', label: 'JavaScript', extension: javascript },
-        { value: 'python', label: 'Python', extension: python },
-        { value: 'cpp', label: 'C++', extension: cpp },
-        { value: 'java', label: 'Java', extension: java }
-    ]
-
     const getCurrentExtension = () => {
-        const lang = languageOptions.find(l => l.value === language)
-        return lang ? [lang.extension()] : [javascript()]
+        const extension = languageExtensions[language as keyof typeof languageExtensions]
+        return extension ? [extension()] : [javascript()]
+    }
+
+    const handleLanguageChange = (newLang: string) => {
+        const selectedLang = languages.find(l => l.lang === newLang)
+        if (selectedLang) {
+            setLanguage(newLang)
+            setCode(selectedLang.snippet)
+            setVersion(selectedLang.version)
+        }
     }
 
     const handleCopy = async () => {
@@ -41,7 +52,11 @@ const Editor: React.FC = () => {
             const response = await fetch("/api/compile", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code, language, version: "18.15.0" })
+                body: JSON.stringify({ 
+                    code, 
+                    language, 
+                    version 
+                })
             })
             
             const data = await response.json()
@@ -49,28 +64,19 @@ const Editor: React.FC = () => {
                 setOutput(`Error: ${data.error}`)
                 return
             }
-            let formattedOutput = formatOutput(data)
 
-            if (typeof formattedOutput === 'string' && formattedOutput.includes('Hello World')) {
-                formattedOutput = formattedOutput
-                    .split('Hello World')
-                    .filter(Boolean)
-                    .map(() => 'Hello World')
-                    .join('\n')
+            // Format the output based on the response
+            if (data.output) {
+                setOutput(String(data.output))
+            } else if (data.repo) {
+                setOutput(String(data.repo))
+            } else {
+                setOutput('No output received from the server')
             }
-
-            setOutput(formattedOutput)
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Failed to run code'
             setOutput(`Error: ${errorMessage}`)
         }
-    }
-
-    const formatOutput = (data: any): string => {
-        if (data.error) return `Error: ${data.error}`
-        if (data.output) return String(data.output)
-        if (data.repo) return String(data.repo)
-        return 'No output received from the server'
     }
 
     return (
@@ -91,12 +97,12 @@ const Editor: React.FC = () => {
                     <div className="flex items-center gap-4">
                         <select
                             value={language}
-                            onChange={(e) => setLanguage(e.target.value)}
+                            onChange={(e) => handleLanguageChange(e.target.value)}
                             className="bg-gray-700 text-gray-200 px-3 py-2 rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                            {languageOptions.map(lang => (
-                                <option key={lang.value} value={lang.value}>
-                                    {lang.label}
+                            {languages.map(lang => (
+                                <option key={lang.lang} value={lang.lang}>
+                                    {lang.lang.charAt(0).toUpperCase() + lang.lang.slice(1)} ({lang.version})
                                 </option>
                             ))}
                         </select>
