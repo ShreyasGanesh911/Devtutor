@@ -5,7 +5,7 @@ DevTutor is an intelligent coding education platform that combines real-time AI 
 ## Features
 
 ### 1. About Page
-![About Page](./public/about.png)
+![About Page](./public/About.png)
 The landing page introduces DevTutor's core features and capabilities. It showcases:
 - Real-time AI Chat functionality
 - Integrated Code Editor
@@ -13,7 +13,7 @@ The landing page introduces DevTutor's core features and capabilities. It showca
 - Modern, dark-themed UI for comfortable coding sessions
 
 ### 2. Introduction
-![Introduction](./public/intro.png)
+![Introduction](./public/Intro.png)
 The introduction section provides users with:
 - Seamless onboarding experience
 - Clear explanation of DevTutor's capabilities
@@ -21,7 +21,7 @@ The introduction section provides users with:
 - Overview of the platform's features
 
 ### 3. Working Demo
-![Working Demo](./public/working.png)
+![Working Demo](./public/Working.png)
 The working interface demonstrates:
 - Real-time AI chat interaction
 - Code editor with syntax highlighting
